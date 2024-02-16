@@ -47,13 +47,20 @@ void setup()
     pid.SetOutputLimits(0, 255); // Output limits for the relay
 
     // Read setpoint from EEPROM
-    EEPROM.get(0, setpoint);
+    setpoint = EEPROM.read(0);
 
     // Start temperature sensors
     sensors.begin();
 
     // Start serial communication
     Serial.begin(9600);
+    // locate devices on the bus
+    Serial.print("Locating devices...");
+    Serial.print("Found ");
+    int deviceCount = sensors.getDeviceCount();
+    Serial.print(deviceCount, DEC);
+    Serial.println(" devices.");
+    Serial.println("");
 }
 
 void loop()
@@ -62,24 +69,31 @@ void loop()
     buttonStateDown = digitalRead(BUTTON_DOWN_PIN);
     buttonStateSet = digitalRead(BUTTON_SET_PIN);
 
-    if (buttonStateSet != lastButtonStateSet)
+    if (buttonStateUp == LOW)
     {
-        if (buttonStateSet == HIGH)
-        {
-            // Increment setpoint when SET button is pressed
-            setpoint += 0.1;
-            // Save setpoint to EEPROM
-            EEPROM.put(0, setpoint);
-        }
-        lastButtonStateSet = buttonStateSet;
+        delay(100);
+        // Increment setpoint when SET button is pressed
+        setpoint += 0.1;
+        // Save setpoint to EEPROM
+        EEPROM.update(0, setpoint);
+        Serial.println(setpoint);
+    }
+    if (buttonStateDown == LOW)
+    {
+        delay(100);
+        // Increment setpoint when SET button is pressed
+        setpoint -= 0.1;
+        // Save setpoint to EEPROM
+        EEPROM.update(0, setpoint);
+        Serial.println(setpoint);
     }
 
     // Read temperatures from sensors and average them
     sensors.requestTemperatures();
     float temp1 = sensors.getTempCByIndex(0);
     float temp2 = sensors.getTempCByIndex(1);
-    input = (temp1 + temp2) / 2.0;
-
+    // input = (temp1 + temp2) / 2.0;
+    input = map(analogRead(0), 0, 1023, 40, 70);
     // Compute PID control signal
     pid.Compute();
 
@@ -118,6 +132,10 @@ void loop()
     lcd.print("Temp: ");
     lcd.print(input);
     lcd.print("C");
+    if (setpoint > 65)
+        setpoint = 60;
+    if (setpoint < 55)
+        setpoint = 55;
 
-    delay(1000); // Delay for 1 second
+    delay(500); // Delay for 0.5 second
 }
