@@ -1,4 +1,7 @@
 {
-    "board": "arduino:avr:uno",
-    "sketch": "urineIncubator.ino"
+    "board": "arduino:avr:nano",
+    "sketch": "urineIncubator.ino",
+    "configuration": "cpu=atmega328old",
+    "port": "COM13",
+    "programmer": "arduino:avrisp"
 }
