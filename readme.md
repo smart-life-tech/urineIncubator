@@ -64,9 +64,9 @@ void setup() {
   pinMode(BUZZER_PIN, OUTPUT);
   pinMode(LED_ACTIVE_PIN, OUTPUT);
   pinMode(LED_ALARM_PIN, OUTPUT);
-  pinMode(BUTTON_UP_PIN, INPUT);
-  pinMode(BUTTON_DOWN_PIN, INPUT);
-  pinMode(BUTTON_SET_PIN, INPUT);
+  pinMode(BUTTON_UP_PIN, INPUT_PULLUP);
+  pinMode(BUTTON_DOWN_PIN, INPUT_PULLUP);
+  pinMode(BUTTON_SET_PIN, INPUT_PULLUP);
 ```
 - These lines set the pinMode of the pins used for various components.
 
@@ -126,7 +126,7 @@ void loop() {
   sensors.requestTemperatures();
   float temp1 = sensors.getTempCByIndex(0);
   float temp2 = sensors.getTempCByIndex(1);
-  input = (temp1 + temp2) / 2.0;
+  input = (temp1 + temp2) / 2.0;// AVERAGE THE RECORDED VALUE
 ```
 - These lines request and read temperatures from the DS18B20 sensors and calculate the average temperature.
 
