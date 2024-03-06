@@ -5,14 +5,23 @@
 #include <EEPROM.h>
 #include <PID_v1.h>
 
-#define RELAY_PIN 2
 #define BUZZER_PIN 3
+
 #define LED_ACTIVE_PIN 4
 #define LED_ALARM_PIN 5
-#define BUTTON_UP_PIN 6
-#define BUTTON_DOWN_PIN 7
-#define BUTTON_SET_PIN 8
-#define ONE_WIRE_BUS 9
+
+#define BUTTON_UP_PIN A0
+#define BUTTON_DOWN_PIN A1
+#define BUTTON_SET_PIN A2
+
+#define ONE_WIRE_BUS 2
+
+// relay pins
+#define relay1 12
+#define relay2 11
+#define relay3 10
+#define relay4 9
+#define relay5 8
 
 // Define variables for PID
 double setpoint, input, output;
@@ -31,7 +40,12 @@ int lastButtonStateSet = 0;
 
 void setup()
 {
-  pinMode(RELAY_PIN, OUTPUT);
+  pinMode(relay1, OUTPUT);
+  pinMode(relay2, OUTPUT);
+  pinMode(relay3, OUTPUT);
+  pinMode(relay4, OUTPUT);
+  pinMode(relay5, OUTPUT);
+
   pinMode(BUZZER_PIN, OUTPUT);
   pinMode(LED_ACTIVE_PIN, OUTPUT);
   pinMode(LED_ALARM_PIN, OUTPUT);
@@ -100,17 +114,25 @@ void loop()
   // Activate/deactivate relay based on PID output
   if (output > 0)
   {
-    digitalWrite(RELAY_PIN, HIGH);
+    digitalWrite(relay1, HIGH);
+    digitalWrite(relay2, HIGH);
+    digitalWrite(relay3, HIGH);
+    digitalWrite(relay4, HIGH);
+    digitalWrite(relay5, HIGH);
     digitalWrite(LED_ACTIVE_PIN, HIGH);
   }
   else
   {
-    digitalWrite(RELAY_PIN, LOW);
+    digitalWrite(relay1, LOW);
+    digitalWrite(relay2, LOW);
+    digitalWrite(relay3, LOW);
+    digitalWrite(relay4, LOW);
+    digitalWrite(relay5, LOW);
     digitalWrite(LED_ACTIVE_PIN, LOW);
   }
 
   // Check for over-temperature condition
-  if (input > setpoint)
+  if (input > setpoint + 10)
   {
     digitalWrite(BUZZER_PIN, HIGH);
     digitalWrite(LED_ALARM_PIN, HIGH);
