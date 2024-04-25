@@ -2,6 +2,6 @@
     "board": "arduino:avr:nano",
     "sketch": "urineIncubator.ino",
     "configuration": "cpu=atmega328old",
-    "port": "COM13",
+    "port": "COM10",
     "programmer": "arduino:avrisp"
 }

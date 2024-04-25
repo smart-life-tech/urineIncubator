@@ -75,6 +75,32 @@ void setup()
   Serial.print(deviceCount, DEC);
   Serial.println(" devices.");
   Serial.println("");
+  digitalWrite(relay1, HIGH);
+  digitalWrite(relay2, HIGH);
+  digitalWrite(relay3, HIGH);
+  digitalWrite(relay4, HIGH);
+  digitalWrite(relay5, HIGH);
+  digitalWrite(LED_ACTIVE_PIN, HIGH);
+  delay(5000);
+  // Activate/deactivate relay based on PID output
+  for (int i = 0; i < 2; i++)
+  {
+    digitalWrite(relay1, HIGH);
+    digitalWrite(relay2, HIGH);
+    digitalWrite(relay3, HIGH);
+    digitalWrite(relay4, HIGH);
+    digitalWrite(relay5, HIGH);
+    digitalWrite(LED_ACTIVE_PIN, HIGH);
+    delay(500);
+    digitalWrite(relay1, LOW);
+    digitalWrite(relay2, LOW);
+    digitalWrite(relay3, LOW);
+    digitalWrite(relay4, LOW);
+    digitalWrite(relay5, LOW);
+    delay(1000);
+    Serial.print(" devices.");
+    Serial.println("relay tests");
+  }
 }
 
 void loop()
@@ -106,6 +132,10 @@ void loop()
   sensors.requestTemperatures();
   float temp1 = sensors.getTempCByIndex(0);
   float temp2 = sensors.getTempCByIndex(1);
+  Serial.print(" temp 1. ");
+  Serial.println(temp1);
+  Serial.print(" temp 2. ");
+  Serial.println(temp2);
   // input = (temp1 + temp2) / 2.0;
   input = map(analogRead(0), 0, 1023, 40, 70);
   // Compute PID control signal
@@ -158,6 +188,6 @@ void loop()
     setpoint = 60;
   if (setpoint < 55)
     setpoint = 55;
-  Serial.print("working");
+  Serial.println("working");
   delay(5000); // Delay for 0.5 second
 }

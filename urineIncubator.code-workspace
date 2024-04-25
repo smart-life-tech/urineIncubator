@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../../../Arduino/urineIncubator"
+		},
+		{
+			"name": "240306-155824-nanoatmega328new",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"stm32-for-vscode.openOCDPath": false,
+		"stm32-for-vscode.makePath": false,
+		"stm32-for-vscode.armToolchainPath": false
+	}
+}
