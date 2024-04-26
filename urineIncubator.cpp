@@ -25,7 +25,7 @@
 
 // Define variables for PID
 double setpoint, input, output;
-double Kp = 2, Ki = 5, Kd = 1; // PID constants
+double Kp = 2, Ki = 0, Kd = 0; // PID constants
 PID pid(&input, &output, &setpoint, Kp, Ki, Kd, DIRECT);
 
 OneWire oneWire(ONE_WIRE_BUS);
@@ -136,8 +136,8 @@ void loop()
   Serial.println(temp1);
   Serial.print(" temp 2. ");
   Serial.println(temp2);
-  // input = (temp1 + temp2) / 2.0;
-  input = map(analogRead(0), 0, 1023, 40, 70);
+  input = (temp1 + temp2) / 2.0;
+  //input = map(analogRead(0), 0, 1023, 40, 70);
   // Compute PID control signal
   pid.Compute();
 
